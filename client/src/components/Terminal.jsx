@@ -93,14 +93,20 @@ const handleSubmit = (e) => {
             fontSize: 14,
             lineHeight: "1.7",
             color: line.startsWith("AI suggests:")
-              ? "#22d3ee"
-              : line.startsWith("Error") || line.includes("not found")
-              ? "#f87171"
-              : line.startsWith("Type") || line.startsWith("Commands")
-              ? "#a3a3a3"
-              : line.startsWith(">")
-              ? "#a78bfa"
-              : "#e5e5e5",
+  ? "#22d3ee"
+  : line.startsWith("Error") || line.includes("not found") || line.includes("permission denied")
+  ? "#f87171"
+  : line.startsWith("Type") || line.startsWith("Commands") || line.startsWith("Use")
+  ? "#a3a3a3"
+  : line.startsWith(">")
+  ? "#a78bfa"
+  : line.startsWith("Changed to")
+  ? "#facc15"
+  : line.startsWith("AI Terminal") || line.startsWith("Executing") 
+  ? "#4ade80"
+  : line.startsWith("Cancelled") || line.startsWith("No previous")
+  ? "#f97316"
+  : "#e5e5e5",
           }}>
             {line}
           </div>
