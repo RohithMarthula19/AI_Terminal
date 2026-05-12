@@ -29,3 +29,18 @@ Commands will now run on your own machine.
 - Frontend: React + Vite (Vercel)
 - Backend: Node.js + Express (Render)
 - AI: NVIDIA API (LLaMA 4 Maverick)
+
+## Setup & Usage
+
+### Option 1 — One line install (Recommended)
+curl -fsSL https://raw.githubusercontent.com/RohithMarthula19/AI_Terminal/main/install.sh | bash
+
+Then open: https://ai-terminal-nine.vercel.app/
+
+### Option 2 — Manual setup
+git clone https://github.com/RohithMarthula19/AI_Terminal
+cd AI_Terminal/server
+npm install
+node index.js
+
+Then open: https://ai-terminal-nine.vercel.app/
