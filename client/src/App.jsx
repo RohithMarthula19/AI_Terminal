@@ -14,7 +14,7 @@ function App() {
   const [pendingCommand, setPendingCommand] = useState(null);
 
   const fetchCwd = async () => {
-  const res = await fetch("${API_URL}/cwd");
+  const res = await fetch(`${API_URL}/cwd`);
   const data = await res.json();
   setCwd(data.cwd);
 };
@@ -74,7 +74,7 @@ useEffect(() => {
     }
     setHistory((prev) => [...prev, "> @ai explain", "AI is thinking..."]);
     const prompt = `I ran a Linux command and got this output: "${lastOutput}". Explain what it means in simple terms and suggest what to do next. Keep it short and clear.`;
-    const res = await fetch("${API_URL}/chat", {
+    const res = await fetch(`${API_URL}/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: prompt }),
@@ -92,7 +92,7 @@ useEffect(() => {
     }
     setHistory((prev) => [...prev, "> @ai fix", "AI is thinking..."]);
     const prompt = `I ran a Linux command and got this error: "${lastOutput}". Give me the corrected Linux command to fix this. Reply with ONLY the exact command, nothing else.`;
-    const res = await fetch("${API_URL}/chat", {
+    const res = await fetch(`${API_URL}/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: prompt }),
@@ -114,7 +114,7 @@ useEffect(() => {
     setHistory((prev) => [...prev, `> ${command}`, "AI is thinking..."]);
     const prompt = `You are a Linux terminal assistant. The user wants to: "${userRequest}". Reply with ONLY the exact Linux command, nothing else. No explanation, no markdown, just the raw command.`;
     try {
-      const res = await fetch("${API_URL}/chat", {
+      const res = await fetch(`${API_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: prompt }),
@@ -135,7 +135,7 @@ useEffect(() => {
   if (pendingCommand) {
     if (command === "yes") {
       setHistory((prev) => [...prev, `> yes`, "Executing..."]);
-      const res = await fetch("${API_URL}/execute", {
+      const res = await fetch(`${API_URL}/execute`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ command: pendingCommand }),
@@ -154,7 +154,7 @@ useEffect(() => {
   setIsRunning(true);
 setHistory((prev) => [...prev, `> ${command}`]);
 try {
-const res = await fetch("${API_URL}/execute", {
+const res = await fetch(`${API_URL}/execute`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ command }),
