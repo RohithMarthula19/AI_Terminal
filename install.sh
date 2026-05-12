@@ -20,7 +20,7 @@ curl -fsSL https://raw.githubusercontent.com/RohithMarthula19/AI_Terminal/main/s
 curl -fsSL https://raw.githubusercontent.com/RohithMarthula19/AI_Terminal/main/server/package.json -o package.json
 
 # Create .env with your API key
-echo "NVIDIA_API_KEY=your_actual_key_here" > .env
+echo "NVIDIA_API_KEY=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" > .env
 
 echo "📦 Installing dependencies..."
 npm install
