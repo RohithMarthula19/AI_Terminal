@@ -1,0 +1,58 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #0a0a0f;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: monospace;
+  overflow: hidden;
+}
+
+#terminal {
+  width: 800px;
+  height: 500px;
+  background: #111118;
+  border: 1px solid #2a2a4a;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+#output {
+  flex: 1;
+  overflow-y: auto;
+  color: #aaaaff;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+#input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid #2a2a4a;
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+#prompt {
+  color: #5555ff;
+  font-size: 14px;
+}
+
+#cmd-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-family: monospace;
+  font-size: 14px;
+}
