@@ -1,9 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-
 const { exec } = require("child_process");
-
+const https = require("https");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -13,10 +12,6 @@ const client = new OpenAI({
   apiKey: process.env.NVIDIA_API_KEY,
   baseURL: "https://integrate.api.nvidia.com/v1",
 });
-
-const app = express();
-
-const https = require("https");
 
 const LOCAL_VERSION = "1.0.0";
 
@@ -36,12 +31,15 @@ https.get("https://raw.githubusercontent.com/RohithMarthula19/AI_Terminal/main/v
   });
 }).on("error", () => {});
 
+const app = express();
+
 app.use(cors());
 app.use(express.json());
 
-//app.get("/", (req, res) => {
-  //res.send("Backend is running...");
-//});
+let currentDir = process.cwd();
+let currentProcess = null;
+
+const blockedCommands = ["nano", "vim", "vi", "htop", "top", "less", "man", "ssh"];
 
 app.get("/cwd", (req, res) => {
   res.json({ cwd: currentDir });
@@ -50,30 +48,21 @@ app.get("/cwd", (req, res) => {
 app.post("/chat", async (req, res) => {
   try {
     const { message } = req.body;
-
     const completion = await client.chat.completions.create({
       model: "meta/llama-4-maverick-17b-128e-instruct",
       messages: [{ role: "user", content: message }],
       max_tokens: 500,
     });
-
     const reply = completion.choices[0].message.content;
     res.json({ reply });
-
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "AI request failed" });
   }
 });
 
-let currentDir = process.cwd();
-let currentProcess = null;
-
-const blockedCommands = ["nano", "vim", "vi", "htop", "top", "less", "man", "ssh"];
-
 app.post("/execute", (req, res) => {
   const { command } = req.body;
-
   const firstWord = command.trim().split(" ")[0];
 
   if (blockedCommands.includes(firstWord)) {
@@ -82,7 +71,7 @@ app.post("/execute", (req, res) => {
 
   if (command.startsWith("cd ")) {
     const target = command.slice(3).trim();
-    const newDir = require("path").resolve(currentDir, target);
+    const newDir = path.resolve(currentDir, target);
     currentDir = newDir;
     return res.json({ output: `Changed to ${newDir}` });
   }
@@ -113,7 +102,5 @@ app.get("/{*path}", (req, res) => {
 });
 
 app.listen(5000, () => {
-  console.log(
-    "Server running on port 5000"
-  );
+  console.log("Server running on port 5000");
 });
