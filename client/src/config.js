@@ -1,5 +1,2 @@
-const API_URL = window.location.hostname === "localhost"
-  ? "http://localhost:5000"  
-  : "https://ai-terminal-pxs0.onrender.com";
-
+const API_URL = "http://localhost:5000";
 export default API_URL;
