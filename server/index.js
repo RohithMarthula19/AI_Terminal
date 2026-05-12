@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const { exec } = require("child_process");
 
@@ -15,12 +16,32 @@ const client = new OpenAI({
 
 const app = express();
 
+const https = require("https");
+
+const LOCAL_VERSION = "1.0.0";
+
+https.get("https://raw.githubusercontent.com/RohithMarthula19/AI_Terminal/main/version.json", (res) => {
+  let data = "";
+  res.on("data", (chunk) => data += chunk);
+  res.on("end", () => {
+    try {
+      const { version } = JSON.parse(data);
+      if (version !== LOCAL_VERSION) {
+        console.log(`\n⚡ New version ${version} available!`);
+        console.log(`Run 'git pull' in your AI_Terminal folder to update.\n`);
+      } else {
+        console.log("✅ AI Terminal is up to date.");
+      }
+    } catch (e) {}
+  });
+}).on("error", () => {});
+
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Backend is running...");
-});
+//app.get("/", (req, res) => {
+  //res.send("Backend is running...");
+//});
 
 app.get("/cwd", (req, res) => {
   res.json({ cwd: currentDir });
@@ -83,6 +104,12 @@ app.post("/cancel", (req, res) => {
   } else {
     res.json({ output: "No process running." });
   }
+});
+
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/{*path}", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 app.listen(5000, () => {
