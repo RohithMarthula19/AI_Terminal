@@ -13,7 +13,7 @@ const client = new OpenAI({
   baseURL: "https://integrate.api.nvidia.com/v1",
 });
 
-const LOCAL_VERSION = "1.0.0";
+const LOCAL_VERSION = "1.1.0";
 
 https.get("https://raw.githubusercontent.com/RohithMarthula19/AI_Terminal/main/version.json", (res) => {
   let data = "";
